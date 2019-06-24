@@ -283,6 +283,15 @@ defmodule Sqlitex.Statement do
       time = {_hr, _mi, _se, _usecs} -> time_to_string(time)
       datetime = {{_yr, _mo, _da}, {_hr, _mi, _se, _usecs}} -> datetime_to_string(datetime)
       %Decimal{sign: sign, coef: coef, exp: exp} -> sign * coef * :math.pow(10, exp)
+      %NaiveDateTime{
+        year: year,
+        month: month,
+        day: day,
+        hour: hour,
+        minute: minute,
+        second: second
+      } ->
+        datetime_to_string({{year, month, day}, {hour, minute, second, 0}})
       other -> other
     end)
   end
